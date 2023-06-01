@@ -1,6 +1,6 @@
 #!/bin/bash
 
-interactive = false
+interactive=false
 
  while [[ $# -gt 0 ]]; do
   flag="$1"
@@ -17,16 +17,15 @@ interactive = false
 		-lc)
 			echo "$(docker ps -a )"
 			;;
-
     *)
-      interactive = true
+      interactive=true
       ;;
   esac
   shift
 done
 
 
-if [ "$interactive" = true ]; then
+if [[ "$interactive" -eq true ]]; then
 
 	echo "Docker cli helper"
 

@@ -2,29 +2,36 @@
 
 interactive=false
 
-while [[ $# -gt 0 ]]; do
-	flag="$1"
-	case $flag in
-	-di)
-		docker rmi $(docker images | tail -n +2 | awk '{ print $3}')
-		;;
-	-li)
-		echo "$(docker images | tail -n +2)"
-		;;
-	-dc)
-		docker rm $(docker ps -a | tail -n +2 | awk ' { print $1 }')
-		;;
-	-lc)
-		echo "$(docker ps -a)"
-		;;
-	*)
-		interactive=true
-		;;
-	esac
-	shift
-done
+if [[ $# -le 0 ]]; then
 
-if [[ "$interactive" -eq true ]]; then
+	interactive=true
+	
+else
+	while [[ $# -gt 0 ]]; do
+		flag="$1"
+		case $flag in
+		-di)
+			docker rmi $(docker images | tail -n +2 | awk '{ print $3}')
+			;;
+		-li)
+			echo "$(docker images | tail -n +2)"
+			;;
+		-dc)
+			docker rm $(docker ps -a | tail -n +2 | awk ' { print $1 }')
+			;;
+		-lc)
+			echo "$(docker ps -a)"
+			;;
+		*)
+			echo "Unknown args passed $flag"
+			interactive=true
+			;;
+		esac
+		shift
+	done
+fi
+
+if [ "$interactive" = true ]; then
 
 	echo "Docker cli helper"
 
